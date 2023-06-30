@@ -1,0 +1,772 @@
+definitions:
+  core.ClockFuncStore:
+    properties:
+      codeOfGetClockFunc:
+        items:
+          type: integer
+        type: array
+      originAddress:
+        type: integer
+    type: object
+  core.ClockOption:
+    properties:
+      action:
+        type: string
+      clock-ids-slice:
+        type: string
+      clockIdsMask:
+        type: integer
+      duration:
+        type: string
+      kind:
+        type: string
+      nsecDelta:
+        type: integer
+      pid:
+        type: integer
+      schedule:
+        type: string
+      secDelta:
+        type: integer
+      store:
+        $ref: '#/definitions/core.ClockFuncStore'
+      time-offset:
+        type: string
+      uid:
+        type: string
+    type: object
+  core.DiskOption:
+    properties:
+      action:
+        type: string
+      duration:
+        type: string
+      fallocate:
+        type: boolean
+      kind:
+        type: string
+      path:
+        type: string
+      payload-process-num:
+        type: integer
+      percent:
+        type: string
+      schedule:
+        type: string
+      size:
+        type: string
+      uid:
+        type: string
+    type: object
+  core.HTTPAttackOption:
+    properties:
+      abort:
+        type: boolean
+      action:
+        type: string
+      code:
+        type: string
+      count:
+        type: integer
+      delay:
+        type: string
+      duration:
+        type: string
+      enable-conn-pool:
+        type: boolean
+      file_path:
+        type: string
+      kind:
+        type: string
+      method:
+        type: string
+      path:
+        type: string
+      port:
+        type: integer
+      proxy_ports:
+        items:
+          type: integer
+        type: array
+      schedule:
+        type: string
+      target:
+        type: string
+      uid:
+        type: string
+      url:
+        description: used for HTTP request, now only support GET
+        type: string
+    type: object
+  core.JVMCommand:
+    properties:
+      action:
+        description: fault action, values can be latency, exception, return, stress,
+          gc, rule-file, rule-data, mysql
+        type: string
+      class:
+        description: Java class
+        type: string
+      cpu-count:
+        description: the CPU core number need to use, only set it when action is stress
+        type: integer
+      database:
+        description: |-
+          the match database
+          default value is "", means match all database
+        type: string
+      duration:
+        type: string
+      exception:
+        description: |-
+          the exception which needs to throw for action `exception`
+          or the exception message needs to throw in action `mysql`
+        type: string
+      kind:
+        type: string
+      latency:
+        description: |-
+          the latency duration for action 'latency'
+          or the latency duration in action `mysql`
+        type: integer
+      mem-type:
+        description: the memory type need to locate, only set it when action is stress,
+          the value can be 'stack' or 'heap'
+        type: string
+      method:
+        description: the method in Java class
+        type: string
+      mysql-connector-version:
+        description: the version of mysql-connector-java, only support 5.X.X(set to
+          5) and 8.X.X(set to 8) now
+        type: string
+      name:
+        description: rule name, should be unique, and will generate by chaosd automatically
+        type: string
+      pid:
+        description: the pid of Java process which need to attach
+        type: integer
+      port:
+        description: the port of agent server
+        type: integer
+      rule-data:
+        description: RuleData used to save the rule file's data, will use it when
+          recover, for action 'rule-data'
+        type: string
+      rule-file:
+        description: btm rule file path for action 'rule-file'
+        type: string
+      schedule:
+        type: string
+      sql-type:
+        description: |-
+          the match sql type
+          default value is "", means match all SQL type
+        type: string
+      table:
+        description: |-
+          the match table
+          default value is "", means match all table
+        type: string
+      uid:
+        type: string
+      value:
+        description: the return value for action 'return'
+        type: string
+    type: object
+  core.KafkaCommand:
+    properties:
+      action:
+        description: global options
+        type: string
+      authMechanism:
+        type: string
+      configFile:
+        description: options for fill and io attack
+        type: string
+      duration:
+        type: string
+      host:
+        description: options for fill and flood attack
+        type: string
+      kind:
+        type: string
+      maxBytes:
+        type: integer
+      messageSize:
+        type: integer
+      nonReadable:
+        description: options for io attack
+        type: boolean
+      nonWritable:
+        type: boolean
+      originConfig:
+        type: string
+      originModeOfFiles:
+        additionalProperties:
+          type: integer
+        description: recover data for io attack
+        type: object
+      password:
+        type: string
+      port:
+        type: integer
+      reloadCommand:
+        description: options for fill attack
+        type: string
+      schedule:
+        type: string
+      threads:
+        description: options for flood attack
+        type: integer
+      topic:
+        type: string
+      uid:
+        type: string
+      username:
+        type: string
+    type: object
+  core.NetworkCommand:
+    properties:
+      accept-tcp-flags:
+        description: |-
+          only the packet which match the tcp flag can be accepted, others will be dropped.
+          only set when the IPProtocol is tcp, used for partition.
+        type: string
+      action:
+        type: string
+      buffer:
+        description: Buffer is the maximum amount of bytes that tokens can be available
+          for instantaneously.
+        type: integer
+      correlation:
+        type: string
+      device:
+        type: string
+      direction:
+        type: string
+      dns-domain-name:
+        type: string
+      dns-ip:
+        type: string
+      dns-server:
+        description: used for DNS attack
+        type: string
+      duration:
+        type: string
+      egress-port:
+        type: string
+      hostname:
+        type: string
+      ip-address:
+        type: string
+      ip-protocol:
+        type: string
+      iperf-pid:
+        description: |-
+          used for flood
+          the pid of iperf
+        type: integer
+      jitter:
+        type: string
+      kind:
+        type: string
+      latency:
+        type: string
+      limit:
+        description: Limit is the number of bytes that can be queued waiting for tokens
+          to become available.
+        type: integer
+      minburst:
+        description: |-
+          Minburst specifies the size of the peakrate bucket. For perfect
+          accuracy, should be set to the MTU of the interface.  If a
+          peakrate is needed, but some burstiness is acceptable, this
+          size can be raised. A 3000 byte minburst allows around 3mbit/s
+          of peakrate, given 1000 byte packets.
+        type: integer
+      parallel:
+        description: |-
+          used for flood
+          number of iperf parallel client threads to run
+        type: integer
+      peakrate:
+        description: |-
+          Peakrate is the maximum depletion rate of the bucket.
+          The peakrate does not need to be set, it is only necessary
+          if perfect millisecond timescale shaping is required.
+        type: integer
+      percent:
+        type: string
+      port:
+        description: used for port occupied or flood
+        type: string
+      port-pid:
+        type: integer
+      rate:
+        description: Rate is the speed knob. Allows bps, kbps, mbps, gbps, tbps unit.
+          bps means bytes per second.
+        type: string
+      schedule:
+        type: string
+      source-port:
+        type: string
+      uid:
+        type: string
+    type: object
+  core.ProcessCommand:
+    properties:
+      action:
+        type: string
+      duration:
+        type: string
+      kind:
+        type: string
+      pids:
+        items:
+          type: integer
+        type: array
+      process:
+        description: Process defines the process name or the process ID.
+        type: string
+      recoverCmd:
+        type: string
+      schedule:
+        type: string
+      signal:
+        type: integer
+      uid:
+        type: string
+    type: object
+  core.RedisCommand:
+    properties:
+      action:
+        type: string
+      addr:
+        type: string
+      cacheSize:
+        type: string
+      conf:
+        type: string
+      duration:
+        type: string
+      expiration:
+        type: string
+      flushConfig:
+        type: boolean
+      key:
+        type: string
+      kind:
+        type: string
+      option:
+        type: string
+      originCacheSize:
+        type: string
+      password:
+        type: string
+      percent:
+        type: string
+      redisPath:
+        type: string
+      requestNum:
+        type: integer
+      schedule:
+        type: string
+      uid:
+        type: string
+    type: object
+  core.StressCommand:
+    properties:
+      action:
+        type: string
+      duration:
+        type: string
+      kind:
+        type: string
+      load:
+        type: integer
+      options:
+        items:
+          type: string
+        type: array
+      schedule:
+        type: string
+      size:
+        type: string
+      stress-ng-pid:
+        type: integer
+      uid:
+        type: string
+      workers:
+        type: integer
+    type: object
+  core.VMOption:
+    properties:
+      action:
+        type: string
+      duration:
+        type: string
+      kind:
+        type: string
+      schedule:
+        type: string
+      uid:
+        type: string
+      vm-name:
+        type: string
+    type: object
+  utils.APIError:
+    properties:
+      code:
+        type: string
+      error:
+        type: boolean
+      full_text:
+        type: string
+      message:
+        type: string
+    type: object
+  utils.Response:
+    properties:
+      message:
+        type: string
+      status:
+        type: integer
+      uid:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/attack/{uid}:
+    delete:
+      description: Create recover attack.
+      parameters:
+      - description: uid
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.APIError'
+      summary: Create recover attack.
+      tags:
+      - attack
+  /api/attack/clock:
+    post:
+      description: Create clock attack.
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/core.ClockOption'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.APIError'
+      summary: Create clock attack.
+      tags:
+      - attack
+  /api/attack/disk:
+    post:
+      description: Create disk attack.
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/core.DiskOption'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.APIError'
+      summary: Create disk attack.
+      tags:
+      - attack
+  /api/attack/http:
+    post:
+      description: Create http attack.
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/core.HTTPAttackOption'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.APIError'
+      summary: Create http attack.
+      tags:
+      - attack
+  /api/attack/jvm:
+    post:
+      description: Create JVM attack.
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/core.JVMCommand'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.APIError'
+      summary: Create JVM attack.
+      tags:
+      - attack
+  /api/attack/kafka:
+    post:
+      description: Create Kafka attack.
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/core.KafkaCommand'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.APIError'
+      summary: Create Kafka attack.
+      tags:
+      - attack
+  /api/attack/network:
+    post:
+      description: Create network attack.
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/core.NetworkCommand'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.APIError'
+      summary: Create network attack.
+      tags:
+      - attack
+  /api/attack/process:
+    post:
+      description: Create process attack.
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/core.ProcessCommand'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.APIError'
+      summary: Create process attack.
+      tags:
+      - attack
+  /api/attack/redis:
+    post:
+      description: Create redis attack.
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/core.RedisCommand'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.APIError'
+      summary: Create redis attack.
+      tags:
+      - attack
+  /api/attack/stress:
+    post:
+      description: Create stress attack.
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/core.StressCommand'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.APIError'
+      summary: Create stress attack.
+      tags:
+      - attack
+  /api/attack/user_defined:
+    post:
+      description: Create user defined attack.
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/core.RedisCommand'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.APIError'
+      summary: Create user defined attack.
+      tags:
+      - attack
+  /api/attack/vm:
+    post:
+      description: Create VM attack.
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/core.VMOption'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.APIError'
+      summary: Create VM attack.
+      tags:
+      - attack
+swagger: "2.0"
